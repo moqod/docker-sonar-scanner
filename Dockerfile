@@ -1,9 +1,11 @@
 from openjdk:jre-slim
-RUN apt update && apt install -y pylint wget
-RUN wget https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.0.3.778-linux.zip\
-&& unzip sonar-scanner-cli-3.0.3.778-linux.zip\
-&& rm sonar-scanner-cli-3.0.3.778-linux.zip
+ENV SONAR_SCANNER_VERSION 3.0.3.778
+RUN apt update && apt install -y wget
+RUN wget https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${SONAR_SCANNER_VERSION}-linux.zip\
+&& unzip sonar-scanner-cli-${SONAR_SCANNER_VERSION}-linux.zip\
+&& rm sonar-scanner-cli-${SONAR_SCANNER_VERSION}-linux.zip\
+&& mv /sonar-scanner-${SONAR_SCANNER_VERSION}-linux /sonar-scanner
 RUN mkdir /code
 VOLUME /code
 WORKDIR /code
-ENTRYPOINT ["/sonar-scanner-3.0.3.778-linux/bin/sonar-scanner"]
+ENTRYPOINT ["/sonar-scanner/bin/sonar-scanner"]
